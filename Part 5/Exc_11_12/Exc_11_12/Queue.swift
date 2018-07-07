@@ -64,32 +64,6 @@ class ListQueue<T : Comparable>: CustomStringConvertible {
         }
     }
     
-    func selectionSort(){
-        let tempQuery = ListQueue<T>()
-        var notSortedCarret = head
-        while let notSortedHead = notSortedCarret {
-            print(self)
-            var maximum = notSortedHead
-            var smcarret = notSortedCarret
-            while let item = smcarret{
-                if maximum.value < item.value{
-                    maximum = item
-                }
-                smcarret = smcarret?.prev
-            }
-            print(maximum.value)
-            
-            maximum.next?.prev = maximum.prev
-            maximum.prev?.next = maximum.next
-            if maximum.next == nil{
-                notSortedCarret = notSortedCarret?.prev
-                head = notSortedCarret
-            }
-            tempQuery.Enqueue(value: maximum.value)
-        }
-        self.head = tempQuery.head
-    }
-    
     fileprivate class QueueCell<T>{
         init(value:T) {
             self.value = value

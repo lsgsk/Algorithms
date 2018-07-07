@@ -35,7 +35,7 @@ class ListQueue<T : Comparable>: CustomStringConvertible {
         head?.next = nil
         return value
     }
-       
+    
     public var description: String
     {
         var str = "ListQueue: "
@@ -46,68 +46,60 @@ class ListQueue<T : Comparable>: CustomStringConvertible {
         }
         return str
     }
-}
+    
+    func insertionSort(){
+        
 
-fileprivate class QueueCell<T>{
-    init(value:T) {
-        self.value = value
-    }
-    let value : T
-    var next : QueueCell<T>?
-    var prev : QueueCell<T>?
-    
-}
-
-class RingArrayQueue<T: Comparable>: CustomStringConvertible {
-    private var queue : [T?]
-    private var next : Int
-    private var last : Int
-    private var count: Int
-    let max: Int
-    init(max: Int) {
-        self.max = max
-        self.queue = Array(repeating: nil , count: max)
-        self.next = 0
-        self.last = 0
-        self.count = 0
     }
     
-    func Enqueue(value : T){
-        if (count == max){
-            print("No free space")
-            return
-        }
-        queue[next] = value
-        print("Added \(value)")
-        next = (next + 1) % max
-        count += 1
-    }
-    
-    func dequeue() -> T?{
-        if count == 0{
-            print("Queue is empty")
-            return nil
-        }
-        else{
-            let value =  queue[last]
-            count -= 1
-            last = (last + 1) % max
-            return value
-        }
-    }
-    
-    public var description: String
-    {
-        var str = "RingArrayQueue: ["
-        var count = 0
-        while count != self.count  {
-            if let value = queue[(last + count) % max]{
-                str += "\(value) "
+    var count : Int{
+        get{
+            var count = 0
+            var curret = head
+            while let item = curret {
+                count += 1
+                curret = item.prev
             }
-            count += 1
+            return count
         }
-        str += "]"
-        return str
+    }
+    
+    func selectionSort(){
+        let tempQuery = ListQueue<T>()
+        var notSortedCarret = head
+        while let notSortedHead = notSortedCarret {
+            print(self)
+            var maximum = notSortedHead
+            var smcarret = notSortedCarret
+            while let item = smcarret{
+                if maximum.value < item.value{
+                    maximum = item
+                }
+                smcarret = smcarret?.prev
+            }
+            print(maximum.value)
+            
+            maximum.next?.prev = maximum.prev
+            maximum.prev?.next = maximum.next
+            if maximum.next == nil{
+                notSortedCarret = notSortedCarret?.prev
+                head = notSortedCarret
+            }
+            tempQuery.Enqueue(value: maximum.value)
+        }
+        self.head = tempQuery.head
+    }
+    
+    fileprivate class QueueCell<T>{
+        init(value:T) {
+            self.value = value
+        }
+        let value : T
+        var next : QueueCell<T>?
+        var prev : QueueCell<T>?
+        
     }
 }
+
+
 

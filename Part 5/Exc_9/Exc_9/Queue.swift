@@ -61,7 +61,7 @@ class DequeQueue<T : Comparable>: CustomStringConvertible {
     
     public var description: String
     {
-        var str = "ListQueue: "
+        var str = "DequeQueue: "
         var cell = head
         while let item = cell {
             str  += "\(String(describing: item.value)) "

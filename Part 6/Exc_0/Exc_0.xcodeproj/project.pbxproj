@@ -10,6 +10,7 @@
 		F81CC28820F3BAC8009AB884 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81CC28720F3BAC8009AB884 /* main.swift */; };
 		F8D2F23120F48FC80053D624 /* BaseSorts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F23020F48FC80053D624 /* BaseSorts.swift */; };
 		F8D2F23320F490AF0053D624 /* Heapsort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F23220F490AF0053D624 /* Heapsort.swift */; };
+		F8D2F23520F4A5080053D624 /* Quicksort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D2F23420F4A5080053D624 /* Quicksort.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		F81CC28720F3BAC8009AB884 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F8D2F23020F48FC80053D624 /* BaseSorts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSorts.swift; sourceTree = "<group>"; };
 		F8D2F23220F490AF0053D624 /* Heapsort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heapsort.swift; sourceTree = "<group>"; };
+		F8D2F23420F4A5080053D624 /* Quicksort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quicksort.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				F81CC28720F3BAC8009AB884 /* main.swift */,
 				F8D2F23020F48FC80053D624 /* BaseSorts.swift */,
 				F8D2F23220F490AF0053D624 /* Heapsort.swift */,
+				F8D2F23420F4A5080053D624 /* Quicksort.swift */,
 			);
 			path = Exc_0;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 				F8D2F23320F490AF0053D624 /* Heapsort.swift in Sources */,
 				F8D2F23120F48FC80053D624 /* BaseSorts.swift in Sources */,
 				F81CC28820F3BAC8009AB884 /* main.swift in Sources */,
+				F8D2F23520F4A5080053D624 /* Quicksort.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

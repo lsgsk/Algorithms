@@ -31,12 +31,12 @@ func selectionSort(_ array: inout [Int]){
 }
 
 func bablesSort(_ array: inout [Int]){
-    for i in 0..<array.count{
-        for j in 0..<array.count{
-            if array[i] < array[j]{
-                array[i] = array[i] ^  array[j];
-                array[j] = array[j] ^ array[i];
-                array[i] = array[i] ^ array[j];
+    for j in 0..<array.count{
+        for i in 0..<array.count-j-1{
+            if array[i] > array[i+1]{
+                array[i] = array[i] ^ array[i+1];
+                array[i+1] = array[i+1] ^ array[i];
+                array[i] = array[i] ^ array[i+1];
             }
             print("Sort step \(array)")
         }

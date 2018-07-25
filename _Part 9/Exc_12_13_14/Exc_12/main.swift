@@ -16,7 +16,6 @@ func isLegal(_ spot_taken: [[Bool]]) -> Bool {
     for row in 0..<spot_taken.count{
         for col in 0..<spot_taken.count{
             if spot_taken[row][col]{
-                
                 for k in 0..<spot_taken.count{
                     if k == col { continue }
                     if k == row { continue }
@@ -47,6 +46,8 @@ func isLegal(_ spot_taken: [[Bool]]) -> Bool {
     return true
 }
 
+var counter = 0
+
 func EightQueens(_ spot_taken: inout [[Bool]], _ num_queens_positioned: Int) -> Bool{
     if !isLegal(spot_taken){
         return false
@@ -55,12 +56,12 @@ func EightQueens(_ spot_taken: inout [[Bool]], _ num_queens_positioned: Int) -> 
         printBoard(spot_taken)
         return true
     }
+    
     for row in 0..<spot_taken.count{
         for col in 0..<spot_taken.count{
-            //print("\(row)/\(col)")
             if !spot_taken[row][col]{
+                counter += 1
                 spot_taken[row][col] = true
-                //printBoard(spot_taken)
                 if EightQueens(&spot_taken, num_queens_positioned+1){
                     return true
                 }
@@ -72,7 +73,9 @@ func EightQueens(_ spot_taken: inout [[Bool]], _ num_queens_positioned: Int) -> 
 }
 
 print("Hello, World!")
-var count = 5
+var count = 4
+//var board = [[false,false,true,false],             [true,false,false,false],             [false,false,false,true],             [false,true,false,false]]
 var board = Array(repeating: Array(repeating: false, count: count), count: count)
 EightQueens(&board, 0)
+print(counter)
 

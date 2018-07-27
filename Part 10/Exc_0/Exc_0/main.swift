@@ -43,7 +43,7 @@ print("---removed---")
 print(tree.treeStructure)*/
 
 
-var tree = OrderedTree()
+/*var tree = OrderedTree()
 tree.addNode(60)
 tree.addNode(35)
 tree.addNode(76)
@@ -55,9 +55,33 @@ tree.addNode(24)
 tree.addNode(63)
 tree.addNode(69)
 tree.addNode(23)
-print(tree.treeStructure)
-tree.removeNode(76)
-tree.removeNode(35)
-print("---remove---")
-print(tree.treeStructure)
+print(tree.treeStructure)*/
+//tree.removeNode(76)
+//tree.removeNode(35)
+//print("---remove---")
+//print(tree.treeStructure)
+
+
+/*var threadedtree = ThreadedTree()
+threadedtree.addNode(60)
+threadedtree.addNode(35)
+threadedtree.addNode(76)
+threadedtree.addNode(17)
+threadedtree.addNode(42)
+threadedtree.addNode(68)
+threadedtree.addNode(11)
+threadedtree.addNode(24)
+threadedtree.addNode(63)
+threadedtree.addNode(69)
+threadedtree.addNode(23)
+threadedtree.InorderWithThreads()*/
+
+/*var mathtree = ExpressionNode(operand: .Divide)
+mathtree.leftOperand = ExpressionNode(operand: .Times)
+mathtree.rightOperand = ExpressionNode(operand: .Plus)
+mathtree.leftOperand?.leftOperand = ExpressionNode(operand: .Literal, literalText: "6")
+mathtree.leftOperand?.rightOperand = ExpressionNode(operand: .Literal, literalText: "14")
+mathtree.rightOperand?.leftOperand =  ExpressionNode(operand: .Literal, literalText: "9")
+mathtree.rightOperand?.rightOperand = ExpressionNode(operand: .Literal, literalText: "12")
+print(try mathtree.evaluate())*/
 

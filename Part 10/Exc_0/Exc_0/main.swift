@@ -76,7 +76,7 @@ threadedtree.addNode(69)
 threadedtree.addNode(23)
 threadedtree.InorderWithThreads()*/
 
-/*var mathtree = ExpressionNode(operand: .Divide)
+/*jvar mathtree = ExpressionNode(operand: .Divide)
 mathtree.leftOperand = ExpressionNode(operand: .Times)
 mathtree.rightOperand = ExpressionNode(operand: .Plus)
 mathtree.leftOperand?.leftOperand = ExpressionNode(operand: .Literal, literalText: "6")

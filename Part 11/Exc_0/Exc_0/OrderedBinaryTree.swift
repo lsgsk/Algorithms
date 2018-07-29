@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class OrderedTree : CustomStringConvertible {
+class OrderedBinaryTree : CustomStringConvertible {
     private var root : BinaryNode?
     init() {
     }

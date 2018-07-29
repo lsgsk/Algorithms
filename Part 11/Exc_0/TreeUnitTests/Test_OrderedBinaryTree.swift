@@ -136,4 +136,14 @@ class Test_OrderedBinaryTree: XCTestCase {
         XCTAssertEqual(tree.traverseDepthInOrder(), "1 0 2 1")
         print(tree)
     }
+    
+    func test_removeRootWithOneChild() {
+        let tree = OrderedBinaryTree()
+        tree.addNode(5);
+        tree.addNode(6)
+        tree.removeNode(5)
+        XCTAssertEqual(tree.traverseValuesInOrder(), "6")
+        XCTAssertEqual(tree.traverseDepthInOrder(), "0")
+        print(tree)
+    }
 }

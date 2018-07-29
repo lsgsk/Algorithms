@@ -55,68 +55,27 @@ class OrderedBinaryTree : CustomStringConvertible {
     private func removeNode(_ parent : BinaryNode?, _ viewed : BinaryNode?, _ target: Int){
         if let viewed = viewed{
             if target == viewed.value{
-                if viewed.leftChild == nil && viewed.rightChild == nil{
-                    if parent == nil{
-                        removeRoot()
-                    } else{
+                if let parent = parent{
+                    if viewed.leftChild == nil && viewed.rightChild == nil{
                         removeTerminalLeaf(parent, viewed)
                     }
-                } else if viewed.leftChild == nil || viewed.rightChild == nil{
-                    if parent == nil{
-                        removeRootOneChildLeaf(viewed)
-                    } else{
-                        removeOneChildLeaf(parent, viewed)
+                    else if viewed.leftChild == nil || viewed.rightChild == nil{
+                        removeWithOneChildLeaf(parent, viewed)
                     }
-                }
-                else{
-                    if parent == nil{
-                        if root?.leftChild?.rightChild == nil{
-                            let viewedright = root?.rightChild
-                            root = viewed.leftChild
-                            root?.rightChild = viewedright
-                        }else{
-                            //!!!!
-                            var tparemt : BinaryNode? = root
-                            var tviewed : BinaryNode? = root
-                            while tviewed?.leftChild?.rightChild != nil{
-                                tparemt = tviewed?.leftChild
-                                tviewed = tviewed?.leftChild?.rightChild
-                            }
-                            let viewedleft = root?.leftChild
-                            let viewedright = root?.rightChild
-                            tparemt?.rightChild = tviewed?.leftChild
-                            root = tviewed
-                            root?.leftChild = viewedleft
-                            root?.rightChild = viewedright
-                        }
-                        
-                    }else{
-                        if viewed.leftChild?.rightChild == nil{
-                            let viewedright = viewed.rightChild
-                            if parent?.leftChild === viewed{
-                                parent?.leftChild = viewed.leftChild
-                            }else{
-                                parent?.rightChild = viewed.leftChild
-                            }
-                            viewed.leftChild?.rightChild = viewedright
-                        }else{
-                            var tparemt : BinaryNode? = parent
-                            var tviewed : BinaryNode? = viewed
-                            while tviewed?.leftChild?.rightChild != nil{
-                                tparemt = tviewed?.leftChild
-                                tviewed = tviewed?.leftChild?.rightChild
-                            }
-                            tparemt?.rightChild = tviewed?.leftChild
-                            let viewedleft = viewed.leftChild
-                            let viewedright = viewed.rightChild
-                            if parent?.leftChild === viewed{
-                                parent?.leftChild = tviewed
-                            }else{
-                                parent?.rightChild = tviewed
-                            }
-                            tviewed?.rightChild = viewedright
-                            tviewed?.leftChild = viewedleft
-                        }
+                    else{
+                        removeWithTwoChildren(parent, viewed)
+                    }
+                    
+                }else{
+                    //особый случай для корня
+                    if viewed.leftChild == nil && viewed.rightChild == nil{
+                        removeLonelyRoot()
+                    }
+                    else if viewed.leftChild == nil || viewed.rightChild == nil{
+                        removeRootWithOneChildLeaf()
+                    }
+                    else{
+                        removeRootWithTwoChildren()
                     }
                 }
             }else if target < viewed.value{
@@ -126,9 +85,33 @@ class OrderedBinaryTree : CustomStringConvertible {
             }
         }
     }
-    private func removeRoot(){
+    private func removeLonelyRoot(){
         self.root = nil
     }
+    private func removeRootWithOneChildLeaf(){
+        root = root?.leftChild ?? root?.rightChild
+    }
+    private func removeRootWithTwoChildren(){
+        if root?.leftChild?.rightChild == nil{
+            let viewedright = root?.rightChild
+            root = root?.leftChild
+            root?.rightChild = viewedright
+        }else{
+            var tparemt : BinaryNode? = root
+            var tviewed : BinaryNode? = root
+            while tviewed?.leftChild?.rightChild != nil{
+                tparemt = tviewed?.leftChild
+                tviewed = tviewed?.leftChild?.rightChild
+            }
+            let viewedleft = root?.leftChild
+            let viewedright = root?.rightChild
+            tparemt?.rightChild = tviewed?.leftChild
+            root = tviewed
+            root?.leftChild = viewedleft
+            root?.rightChild = viewedright
+        }
+    }
+    
     
     private func removeTerminalLeaf(_ parent : BinaryNode?, _ viewed: BinaryNode?){
         if parent?.leftChild === viewed{
@@ -137,17 +120,43 @@ class OrderedBinaryTree : CustomStringConvertible {
             parent?.rightChild = nil
         }
     }
-    private func removeOneChildLeaf(_ parent : BinaryNode?, _ viewed: BinaryNode?){
-        if parent?.leftChild === viewed{
-            parent?.leftChild = viewed?.leftChild ?? viewed?.rightChild
+    private func removeWithOneChildLeaf(_ parent : BinaryNode, _ viewed: BinaryNode){
+        if parent.leftChild === viewed{
+            parent.leftChild = viewed.leftChild ?? viewed.rightChild
         }else{
-            parent?.rightChild = viewed?.leftChild ?? viewed?.rightChild
+            parent.rightChild = viewed.leftChild ?? viewed.rightChild
+        }
+    }
+    private func removeWithTwoChildren(_ parent : BinaryNode, _ viewed: BinaryNode){
+        if viewed.leftChild?.rightChild == nil{
+            let viewedright = viewed.rightChild
+            if parent.leftChild === viewed{
+                parent.leftChild = viewed.leftChild
+            }else{
+                parent.rightChild = viewed.leftChild
+            }
+            viewed.leftChild?.rightChild = viewedright
+        }else{
+            var tparemt : BinaryNode? = parent
+            var tviewed : BinaryNode? = viewed
+            while tviewed?.leftChild?.rightChild != nil{
+                tparemt = tviewed?.leftChild
+                tviewed = tviewed?.leftChild?.rightChild
+            }
+            tparemt?.rightChild = tviewed?.leftChild
+            let viewedleft = viewed.leftChild
+            let viewedright = viewed.rightChild
+            if parent.leftChild === viewed{
+                parent.leftChild = tviewed
+            }else{
+                parent.rightChild = tviewed
+            }
+            tviewed?.rightChild = viewedright
+            tviewed?.leftChild = viewedleft
         }
     }
     
-    private func removeRootOneChildLeaf(_ viewed: BinaryNode?){
-        root = viewed?.leftChild ?? viewed?.rightChild
-    }
+    
     
     var description: String{
         get{
@@ -163,7 +172,7 @@ class OrderedBinaryTree : CustomStringConvertible {
         var values = ""
         if let node = node{
             if let left = node.leftChild{
-               values += traverseValuesInOrder(left)
+                values += traverseValuesInOrder(left)
             }
             values += "\(node.value) "
             if let rigth = node.rightChild{

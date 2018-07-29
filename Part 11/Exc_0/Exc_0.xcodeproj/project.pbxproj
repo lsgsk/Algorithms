@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F880FDFA210DD75200FC89F7 /* OrderedTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FDF9210DD75200FC89F7 /* OrderedTree.swift */; };
+		F880FDFA210DD75200FC89F7 /* OrderedBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */; };
+		F880FE02210DD85500FC89F7 /* TreeUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FE01210DD85500FC89F7 /* TreeUnitTests.swift */; };
+		F880FE08210DD98000FC89F7 /* Test_OrderedBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FE07210DD98000FC89F7 /* Test_OrderedBinaryTree.swift */; };
+		F880FE0B210DDABA00FC89F7 /* BinaryNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */; };
+		F880FE0C210DE17F00FC89F7 /* OrderedBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */; };
+		F880FE0D210DE1B000FC89F7 /* BinaryNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */; };
+		F880FE0E210DEC7300FC89F7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24E210CBC5E00D949DE /* Extensions.swift */; };
+		F880FE0F210DEC9000FC89F7 /* AvlTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24C210CBACF00D949DE /* AvlTree.swift */; };
 		F8A0B246210CBABC00D949DE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B245210CBABC00D949DE /* main.swift */; };
 		F8A0B24D210CBACF00D949DE /* AvlTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24C210CBACF00D949DE /* AvlTree.swift */; };
 		F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24E210CBC5E00D949DE /* Extensions.swift */; };
@@ -26,7 +33,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F880FDF9210DD75200FC89F7 /* OrderedTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedTree.swift; sourceTree = "<group>"; };
+		F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedBinaryTree.swift; sourceTree = "<group>"; };
+		F880FDFF210DD85500FC89F7 /* TreeUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreeUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F880FE01210DD85500FC89F7 /* TreeUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeUnitTests.swift; sourceTree = "<group>"; };
+		F880FE03210DD85500FC89F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F880FE07210DD98000FC89F7 /* Test_OrderedBinaryTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test_OrderedBinaryTree.swift; sourceTree = "<group>"; };
+		F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryNode.swift; sourceTree = "<group>"; };
 		F8A0B242210CBABC00D949DE /* Exc_0 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Exc_0; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8A0B245210CBABC00D949DE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F8A0B24C210CBACF00D949DE /* AvlTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvlTree.swift; sourceTree = "<group>"; };
@@ -34,6 +46,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F880FDFC210DD85500FC89F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8A0B23F210CBABC00D949DE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -44,10 +63,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F880FE00210DD85500FC89F7 /* TreeUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				F880FE01210DD85500FC89F7 /* TreeUnitTests.swift */,
+				F880FE03210DD85500FC89F7 /* Info.plist */,
+				F880FE07210DD98000FC89F7 /* Test_OrderedBinaryTree.swift */,
+			);
+			path = TreeUnitTests;
+			sourceTree = "<group>";
+		};
+		F880FE09210DDA9500FC89F7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		F8A0B239210CBABC00D949DE = {
 			isa = PBXGroup;
 			children = (
 				F8A0B244210CBABC00D949DE /* Exc_0 */,
+				F880FE00210DD85500FC89F7 /* TreeUnitTests */,
 				F8A0B243210CBABC00D949DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				F8A0B242210CBABC00D949DE /* Exc_0 */,
+				F880FDFF210DD85500FC89F7 /* TreeUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -63,7 +102,8 @@
 		F8A0B244210CBABC00D949DE /* Exc_0 */ = {
 			isa = PBXGroup;
 			children = (
-				F880FDF9210DD75200FC89F7 /* OrderedTree.swift */,
+				F880FE09210DDA9500FC89F7 /* Models */,
+				F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */,
 				F8A0B245210CBABC00D949DE /* main.swift */,
 				F8A0B24C210CBACF00D949DE /* AvlTree.swift */,
 				F8A0B24E210CBC5E00D949DE /* Extensions.swift */,
@@ -74,6 +114,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F880FDFE210DD85500FC89F7 /* TreeUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F880FE04210DD85500FC89F7 /* Build configuration list for PBXNativeTarget "TreeUnitTests" */;
+			buildPhases = (
+				F880FDFB210DD85500FC89F7 /* Sources */,
+				F880FDFC210DD85500FC89F7 /* Frameworks */,
+				F880FDFD210DD85500FC89F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TreeUnitTests;
+			productName = TreeUnitTests;
+			productReference = F880FDFF210DD85500FC89F7 /* TreeUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F8A0B241210CBABC00D949DE /* Exc_0 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F8A0B249210CBABC00D949DE /* Build configuration list for PBXNativeTarget "Exc_0" */;
@@ -101,6 +158,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Lsgsk;
 				TargetAttributes = {
+					F880FDFE210DD85500FC89F7 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
 					F8A0B241210CBABC00D949DE = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -119,17 +179,42 @@
 			projectRoot = "";
 			targets = (
 				F8A0B241210CBABC00D949DE /* Exc_0 */,
+				F880FDFE210DD85500FC89F7 /* TreeUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		F880FDFD210DD85500FC89F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		F880FDFB210DD85500FC89F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F880FE0E210DEC7300FC89F7 /* Extensions.swift in Sources */,
+				F880FE0C210DE17F00FC89F7 /* OrderedBinaryTree.swift in Sources */,
+				F880FE08210DD98000FC89F7 /* Test_OrderedBinaryTree.swift in Sources */,
+				F880FE0D210DE1B000FC89F7 /* BinaryNode.swift in Sources */,
+				F880FE02210DD85500FC89F7 /* TreeUnitTests.swift in Sources */,
+				F880FE0F210DEC9000FC89F7 /* AvlTree.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F8A0B23E210CBABC00D949DE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				F8A0B246210CBABC00D949DE /* main.swift in Sources */,
-				F880FDFA210DD75200FC89F7 /* OrderedTree.swift in Sources */,
+				F880FDFA210DD75200FC89F7 /* OrderedBinaryTree.swift in Sources */,
+				F880FE0B210DDABA00FC89F7 /* BinaryNode.swift in Sources */,
 				F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */,
 				F8A0B24D210CBACF00D949DE /* AvlTree.swift in Sources */,
 			);
@@ -138,6 +223,42 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F880FE05210DD85500FC89F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 95CZ42W74S;
+				INFOPLIST_FILE = TreeUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Lsgsk.TreeUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		F880FE06210DD85500FC89F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 95CZ42W74S;
+				INFOPLIST_FILE = TreeUnitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Lsgsk.TreeUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		F8A0B247210CBABC00D949DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -274,6 +395,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F880FE04210DD85500FC89F7 /* Build configuration list for PBXNativeTarget "TreeUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F880FE05210DD85500FC89F7 /* Debug */,
+				F880FE06210DD85500FC89F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F8A0B23D210CBABC00D949DE /* Build configuration list for PBXProject "Exc_0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

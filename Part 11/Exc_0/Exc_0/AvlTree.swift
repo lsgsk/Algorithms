@@ -4,8 +4,8 @@ class AvlTree: CustomStringConvertible {
     var root : Node?
     
     func add(_ value : Int){
-        if var root = self.root{
-            addNode(&root, value)
+        if root != nil{
+            addNode(&root!, value)
         }
         else{
             root = Node(value)
@@ -26,34 +26,11 @@ class AvlTree: CustomStringConvertible {
                 node.right = Node(newValue)
             }
         }
-        node = balance(node) ?? node
+        node = balance(node)!
     }
     
     private func height(_ node: Node?) -> Int{
         return node?.height ?? 0
-    }
-    
-    private func bfactor(_ node : Node?) -> Int
-    {
-        return height(node?.right)-height(node?.left);
-    }
-    
-    func rotateright(_ p : Node?) -> Node?{
-        let q = p?.left;
-        p?.left = q?.right;
-        q?.right = p;
-        fixheight(p);
-        fixheight(q);
-        return q;
-    }
-    
-    func rotateleft(_ q : Node?) -> Node?{
-        let p = q?.right;
-        q?.right = p?.left;
-        p?.left = q;
-        fixheight(q);
-        fixheight(p);
-        return p;
     }
     
     private func fixheight(_ node : Node?)
@@ -63,19 +40,41 @@ class AvlTree: CustomStringConvertible {
         node?.height = (hl > hr ? hl : hr) + 1;
     }
     
+    func rotateright(_ root : Node) -> Node{
+        guard let newroot = root.left else {
+            return root
+        }
+        root.left = newroot.right
+        newroot.right = root
+        fixheight(root)
+        fixheight(newroot)
+        return newroot
+    }
+    
+    func rotateleft(_ root : Node) -> Node{
+        guard let newroot = root.right else {
+            return root
+        }
+        root.right = newroot.left;
+        newroot.left = root;
+        fixheight(root);
+        fixheight(newroot);
+        return newroot;
+    }
+    
     private func balance(_ node : Node) -> Node?{
         fixheight(node);
-        if(bfactor(node)==2 )
+        if(bfactor(node)==2)
         {
             if(bfactor(node.right) < 0 ){
-                 node.right = rotateright(node.right);
+                 node.right = rotateright(node.right!);
             }
             return rotateleft(node);
         }
         if(bfactor(node) == -2)
         {
             if(bfactor(node.left) > 0){
-                 node.left = rotateleft(node.left);
+                 node.left = rotateleft(node.left!);
             }
             return rotateright(node);
         }
@@ -88,16 +87,39 @@ class AvlTree: CustomStringConvertible {
             return root?.asString ?? "Empty tree"
         }
     }
+    
+    private func bfactor(_ node : Node?) -> Int
+    {
+        return height(node?.right)-height(node?.left);
+    }
 }
 
 class Node{
     var value : Int
     var height : Int
+    private(set) var bfactor : Int
     var left : Node?
+    {
+        didSet{
+           updateBFactor()
+        }
+    }
     var right : Node?
+    {
+        didSet{
+            updateBFactor()
+        }
+    }
     init(_ value : Int) {
         self.value = value
         self.height = 1
+        self.bfactor = 0
+    }
+    private func updateBFactor(){
+        let hl = left?.height ?? 0;
+        let hr = right?.height ?? 0;
+        height = (hl > hr ? hl : hr) + 1;
+        bfactor = hr-hl
     }
 }
 

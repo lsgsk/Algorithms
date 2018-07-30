@@ -4,30 +4,25 @@ class AvlTree: CustomStringConvertible {
     private var root : AvlNode?
     
     //Add block
-    func addNode(_ value: Int){
-        if let root = root{
-            addNode(root, value) //важна именно родительская рутовая ссылка
-        } else{
-            root = AvlNode(value)
-        }
-    }
-    private func addNode(_ node : AvlNode, _ value: Int){
-        if value < node.value{
-            if let left = node.left{
-                addNode(left, value)
-            }else{
-                node.left = AvlNode(value)
-            }
-        }else{
-            if let right = node.right{
-                addNode(right, value)
-            }else{
-                node.right = AvlNode(value)
-            }
-        }
-        //node = balance(node)
+    func addNode(_ newValue: Int){
+        addNode(&root, newValue)
     }
     
+    private func addNode(_ node : inout AvlNode?, _ value: Int){
+        if node == nil{
+            node = AvlNode(value)
+        }
+        else{
+            if value < node!.value{
+                addNode(&node!.left, value)
+            }else{
+                addNode(&node!.right, value)
+            }
+        }
+        if node != nil{
+            node = balance(node!)
+        }
+    }
     //Remove block
     
     func removeNode(_ target: Int){
@@ -136,7 +131,7 @@ class AvlTree: CustomStringConvertible {
             tviewed?.left = viewedleft
         }
     }
-
+    
     //Balance block
     
     func rotateright(_ root : AvlNode) -> AvlNode{
@@ -160,13 +155,13 @@ class AvlTree: CustomStringConvertible {
     private func balance(_ node : AvlNode) -> AvlNode{
         if(node.bfactor == 2){
             if let factor = node.right?.bfactor, factor == -1 {
-                 node.right = rotateright(node.right!);
+                node.right = rotateright(node.right!);
             }
             return rotateleft(node);
         }
         if(node.bfactor == -2){
             if let factor = node.left?.bfactor, factor == 1{
-                 node.left = rotateleft(node.left!);
+                node.left = rotateleft(node.left!);
             }
             return rotateright(node);
         }

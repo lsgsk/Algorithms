@@ -41,114 +41,45 @@ class OrderedBinaryTree : CustomStringConvertible {
     }
     
     func removeNode(_ target: Int){
-        removeNode(nil, self.root, target)
+        removeNode(&self.root, target)
     }
     
-    private func removeNode(_ parent : BinaryNode?, _ viewed : BinaryNode?, _ target: Int){
-        if let viewed = viewed{
-            if target == viewed.value{
-                if let parent = parent{
-                    if viewed.left == nil && viewed.right == nil{
-                        removeTerminalLeaf(parent, viewed)
-                    }
-                    else if viewed.left == nil || viewed.right == nil{
-                        removeWithOneChildLeaf(parent, viewed)
-                    }
-                    else{
-                        removeWithTwoChildren(parent, viewed)
-                    }
-                    
+    private func removeNode(_ pointer : inout BinaryNode?, _ target: Int){
+        if pointer == nil{
+            return
+        }
+        else if target == pointer!.value{
+            if pointer!.left == nil && pointer!.right == nil{
+                pointer = nil
+            }
+            else if pointer!.left == nil || pointer!.right == nil{
+                pointer = pointer!.left ?? pointer!.right
+            }
+            else{
+                let pleft = pointer!.left
+                let pright = pointer!.right
+                if pointer!.left?.right == nil{
+                    pointer = pleft
+                    pointer?.right = pright
                 }else{
-                    //особый случай для корня
-                    if viewed.left == nil && viewed.right == nil{
-                        removeLonelyRoot()
+                    var tparent : BinaryNode? = nil
+                    var tpointer = pointer
+                    while tpointer?.left?.right != nil{
+                        tparent = tpointer?.left
+                        tpointer = tpointer?.left?.right
                     }
-                    else if viewed.left == nil || viewed.right == nil{
-                        removeRootWithOneChildLeaf()
-                    }
-                    else{
-                        removeRootWithTwoChildren()
-                    }
+                    tparent?.right = tpointer?.left
+                    pointer = tpointer
+                    pointer?.left = pleft
+                    pointer?.right = pright
                 }
-            }else if target < viewed.value{
-                return removeNode(viewed, viewed.left, target)
-            }else{
-                return removeNode(viewed, viewed.right, target)
             }
-        }
-    }
-    private func removeLonelyRoot(){
-        self.root = nil
-    }
-    private func removeRootWithOneChildLeaf(){
-        root = root?.left ?? root?.right
-    }
-    private func removeRootWithTwoChildren(){
-        if root?.left?.right == nil{
-            let viewedright = root?.right
-            root = root?.left
-            root?.right = viewedright
+        }else if target < pointer!.value{
+            return removeNode(&pointer!.left, target)
         }else{
-            var tparemt : BinaryNode? = root
-            var tviewed : BinaryNode? = root
-            while tviewed?.left?.right != nil{
-                tparemt = tviewed?.left
-                tviewed = tviewed?.left?.right
-            }
-            let viewedleft = root?.left
-            let viewedright = root?.right
-            tparemt?.right = tviewed?.left
-            root = tviewed
-            root?.left = viewedleft
-            root?.right = viewedright
+            return removeNode(&pointer!.right, target)
         }
     }
-    
-    
-    private func removeTerminalLeaf(_ parent : BinaryNode?, _ viewed: BinaryNode?){
-        if parent?.left === viewed{
-            parent?.left = nil
-        }else{
-            parent?.right = nil
-        }
-    }
-    private func removeWithOneChildLeaf(_ parent : BinaryNode, _ viewed: BinaryNode){
-        if parent.left === viewed{
-            parent.left = viewed.left ?? viewed.right
-        }else{
-            parent.right = viewed.left ?? viewed.right
-        }
-    }
-    private func removeWithTwoChildren(_ parent : BinaryNode, _ viewed: BinaryNode){
-        if viewed.left?.right == nil{
-            let viewedright = viewed.right
-            if parent.left === viewed{
-                parent.left = viewed.left
-            }else{
-                parent.right = viewed.left
-            }
-            viewed.left?.right = viewedright
-        }else{
-            var tparemt : BinaryNode? = parent
-            var tviewed : BinaryNode? = viewed
-            while tviewed?.left?.right != nil{
-                tparemt = tviewed?.left
-                tviewed = tviewed?.left?.right
-            }
-            tparemt?.right = tviewed?.left
-            let viewedleft = viewed.left
-            let viewedright = viewed.right
-            if parent.left === viewed{
-                parent.left = tviewed
-            }else{
-                parent.right = tviewed
-            }
-            tviewed?.right = viewedright
-            tviewed?.left = viewedleft
-        }
-    }
-    
-    
     
     var description: String{
         get{
@@ -160,7 +91,7 @@ class OrderedBinaryTree : CustomStringConvertible {
         return traverseValuesInOrder(self.root).trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
-    func traverseValuesInOrder(_ node: BinaryNode?) -> String{
+    private func traverseValuesInOrder(_ node: BinaryNode?) -> String{
         var values = ""
         if let node = node{
             if let left = node.left{
@@ -177,7 +108,7 @@ class OrderedBinaryTree : CustomStringConvertible {
     func traverseDepthInOrder() -> String{
         return traverseDepthInOrder(self.root, 0).trimmingCharacters(in: CharacterSet.whitespaces)
     }
-    func traverseDepthInOrder(_ node: BinaryNode?, _ depth: Int) -> String{
+    private func traverseDepthInOrder(_ node: BinaryNode?, _ depth: Int) -> String{
         var values = ""
         if let node = node{
             if let left = node.left{

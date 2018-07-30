@@ -48,8 +48,114 @@ class AvlTree: CustomStringConvertible {
     }
     //Remove block
     
+    func removeNode(_ target: Int){
+        removeNode(nil, self.root, target)
+    }
+    
+    private func removeNode(_ parent : AvlNode?, _ viewed : AvlNode?, _ target: Int){
+        if let viewed = viewed{
+            if target == viewed.value{
+                if let parent = parent{
+                    if viewed.left == nil && viewed.right == nil{
+                        removeTerminalLeaf(parent, viewed)
+                    }
+                    else if viewed.left == nil || viewed.right == nil{
+                        removeWithOneChildLeaf(parent, viewed)
+                    }
+                    else{
+                        removeWithTwoChildren(parent, viewed)
+                    }
+                    
+                }else{
+                    //особый случай для корня
+                    if viewed.left == nil && viewed.right == nil{
+                        removeLonelyRoot()
+                    }
+                    else if viewed.left == nil || viewed.right == nil{
+                        removeRootWithOneChildLeaf()
+                    }
+                    else{
+                        removeRootWithTwoChildren()
+                    }
+                }
+            }else if target < viewed.value{
+                return removeNode(viewed, viewed.left, target)
+            }else{
+                return removeNode(viewed, viewed.right, target)
+            }
+        }
+    }
+    private func removeLonelyRoot(){
+        self.root = nil
+    }
+    private func removeRootWithOneChildLeaf(){
+        root = root?.left ?? root?.right
+    }
+    private func removeRootWithTwoChildren(){
+        if root?.left?.right == nil{
+            let viewedright = root?.right
+            root = root?.left
+            root?.right = viewedright
+        }else{
+            var tparemt : AvlNode? = root
+            var tviewed : AvlNode? = root
+            while tviewed?.left?.right != nil{
+                tparemt = tviewed?.left
+                tviewed = tviewed?.left?.right
+            }
+            let viewedleft = root?.left
+            let viewedright = root?.right
+            tparemt?.right = tviewed?.left
+            root = tviewed
+            root?.left = viewedleft
+            root?.right = viewedright
+        }
+    }
     
     
+    private func removeTerminalLeaf(_ parent : AvlNode?, _ viewed: AvlNode?){
+        if parent?.left === viewed{
+            parent?.left = nil
+        }else{
+            parent?.right = nil
+        }
+    }
+    private func removeWithOneChildLeaf(_ parent : AvlNode, _ viewed: AvlNode){
+        if parent.left === viewed{
+            parent.left = viewed.left ?? viewed.right
+        }else{
+            parent.right = viewed.left ?? viewed.right
+        }
+    }
+    private func removeWithTwoChildren(_ parent : AvlNode, _ viewed: AvlNode){
+        if viewed.left?.right == nil{
+            let viewedright = viewed.right
+            if parent.left === viewed{
+                parent.left = viewed.left
+            }else{
+                parent.right = viewed.left
+            }
+            viewed.left?.right = viewedright
+        }else{
+            var tparemt : AvlNode? = parent
+            var tviewed : AvlNode? = viewed
+            while tviewed?.left?.right != nil{
+                tparemt = tviewed?.left
+                tviewed = tviewed?.left?.right
+            }
+            tparemt?.right = tviewed?.left
+            let viewedleft = viewed.left
+            let viewedright = viewed.right
+            if parent.left === viewed{
+                parent.left = tviewed
+            }else{
+                parent.right = tviewed
+            }
+            tviewed?.right = viewedright
+            tviewed?.left = viewedleft
+        }
+    }
+
     //Balance block
     
     func rotateright(_ root : AvlNode) -> AvlNode{

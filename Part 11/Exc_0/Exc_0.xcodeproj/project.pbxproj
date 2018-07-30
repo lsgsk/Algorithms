@@ -18,6 +18,7 @@
 		F8A0B246210CBABC00D949DE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B245210CBABC00D949DE /* main.swift */; };
 		F8A0B24D210CBACF00D949DE /* AvlTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24C210CBACF00D949DE /* AvlTree.swift */; };
 		F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24E210CBC5E00D949DE /* Extensions.swift */; };
+		F8B9D108210F1595008806C5 /* AvlNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D107210F1595008806C5 /* AvlNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,7 @@
 		F8A0B245210CBABC00D949DE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F8A0B24C210CBACF00D949DE /* AvlTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvlTree.swift; sourceTree = "<group>"; };
 		F8A0B24E210CBC5E00D949DE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F8B9D107210F1595008806C5 /* AvlNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvlNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */,
+				F8B9D107210F1595008806C5 /* AvlNode.swift */,
+				F8A0B24E210CBC5E00D949DE /* Extensions.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -102,13 +106,20 @@
 		F8A0B244210CBABC00D949DE /* Exc_0 */ = {
 			isa = PBXGroup;
 			children = (
+				F8B9D109210F15BE008806C5 /* Trees */,
 				F880FE09210DDA9500FC89F7 /* Models */,
-				F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */,
 				F8A0B245210CBABC00D949DE /* main.swift */,
-				F8A0B24C210CBACF00D949DE /* AvlTree.swift */,
-				F8A0B24E210CBC5E00D949DE /* Extensions.swift */,
 			);
 			path = Exc_0;
+			sourceTree = "<group>";
+		};
+		F8B9D109210F15BE008806C5 /* Trees */ = {
+			isa = PBXGroup;
+			children = (
+				F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */,
+				F8A0B24C210CBACF00D949DE /* AvlTree.swift */,
+			);
+			path = Trees;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +226,7 @@
 				F8A0B246210CBABC00D949DE /* main.swift in Sources */,
 				F880FDFA210DD75200FC89F7 /* OrderedBinaryTree.swift in Sources */,
 				F880FE0B210DDABA00FC89F7 /* BinaryNode.swift in Sources */,
+				F8B9D108210F1595008806C5 /* AvlNode.swift in Sources */,
 				F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */,
 				F8A0B24D210CBACF00D949DE /* AvlTree.swift in Sources */,
 			);

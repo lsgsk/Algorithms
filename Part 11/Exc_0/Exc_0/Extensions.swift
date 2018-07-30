@@ -10,7 +10,7 @@ import Cocoa
 
 extension BinaryNode
 {
-    var asString:String { return treeString(self){("\($0.value)",$0.leftChild,$0.rightChild)}  }
+    var asString:String { return treeString(self){("\($0.value)",$0.left,$0.right)}  }
     
     private func treeString<T>(_ node:T, reversed:Bool=false, isTop:Bool=true, using nodeInfo:(T)->(String,T?,T?)) -> String
     {
@@ -143,7 +143,7 @@ extension BinaryNode
 }
 
 
-extension Node
+extension AvlNode
 {
     var asString:String { return treeString(self){("\($0.value)",$0.left,$0.right)}  }
     

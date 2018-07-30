@@ -6,26 +6,18 @@ class OrderedBinaryTree : CustomStringConvertible {
     }
     
     func addNode(_ newValue: Int){
-        if let root = self.root{
-            addNode(root, newValue)
-        }
-        else{
-            root = BinaryNode(newValue)
-        }
+        addNode(&root, newValue)
     }
     
-    private func addNode(_ node : BinaryNode, _ newValue: Int){
-        if newValue < node.value{
-            if let left = node.left{
-                addNode(left, newValue)
+    private func addNode(_ node : inout BinaryNode?, _ value: Int){
+        if node == nil{
+            node = BinaryNode(value)
+        }
+        else{
+            if value < node!.value{
+                addNode(&node!.left, value)
             }else{
-                node.left = BinaryNode(newValue)
-            }
-        }else{
-            if let right = node.right{
-                addNode(right, newValue)
-            }else{
-                node.right = BinaryNode(newValue)
+                addNode(&node!.right, value)
             }
         }
     }

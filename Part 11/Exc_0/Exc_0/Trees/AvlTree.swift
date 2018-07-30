@@ -5,27 +5,27 @@ class AvlTree: CustomStringConvertible {
     
     //Add block
     func addNode(_ value: Int){
-        if root != nil{
-            addNode(&root!, value) //важна именно родительская рутовая ссылка
+        if let root = root{
+            addNode(root, value) //важна именно родительская рутовая ссылка
         } else{
             root = AvlNode(value)
         }
     }
-    private func addNode(_ node : inout AvlNode, _ value: Int){
+    private func addNode(_ node : AvlNode, _ value: Int){
         if value < node.value{
-            if node.left != nil{
-                addNode(&node.left!, value)
+            if let left = node.left{
+                addNode(left, value)
             }else{
                 node.left = AvlNode(value)
             }
         }else{
-            if node.right != nil{
-                addNode(&node.right!, value)
+            if let right = node.right{
+                addNode(right, value)
             }else{
                 node.right = AvlNode(value)
             }
         }
-        node = balance(node)
+        //node = balance(node)
     }
     
     //Remove block
@@ -35,35 +35,34 @@ class AvlTree: CustomStringConvertible {
     }
     
     private func removeNode(_ parent : AvlNode?, _ viewed : AvlNode?, _ target: Int){
-        if let viewed = viewed{
-            if target == viewed.value{
-                if let parent = parent{
-                    if viewed.left == nil && viewed.right == nil{
-                        removeTerminalLeaf(parent, viewed)
+        if let fviewed = viewed{
+            if target == fviewed.value{
+                if var fparent = parent{
+                    if fviewed.left == nil && fviewed.right == nil{
+                        removeTerminalLeaf(&fparent, fviewed)
                     }
-                    else if viewed.left == nil || viewed.right == nil{
-                        removeWithOneChildLeaf(parent, viewed)
+                    else if fviewed.left == nil || fviewed.right == nil{
+                        removeWithOneChildLeaf(&fparent, fviewed)
                     }
                     else{
-                        removeWithTwoChildren(parent, viewed)
+                        removeWithTwoChildren(&fparent, fviewed)
                     }
-                    
                 }else{
                     //особый случай для корня
-                    if viewed.left == nil && viewed.right == nil{
+                    if fviewed.left == nil && fviewed.right == nil{
                         removeLonelyRoot()
                     }
-                    else if viewed.left == nil || viewed.right == nil{
+                    else if fviewed.left == nil || fviewed.right == nil{
                         removeRootWithOneChildLeaf()
                     }
                     else{
                         removeRootWithTwoChildren()
                     }
                 }
-            }else if target < viewed.value{
-                return removeNode(viewed, viewed.left, target)
+            }else if target < fviewed.value{
+                return removeNode(fviewed, fviewed.left, target)
             }else{
-                return removeNode(viewed, viewed.right, target)
+                return removeNode(fviewed, fviewed.right, target)
             }
         }
     }
@@ -95,21 +94,21 @@ class AvlTree: CustomStringConvertible {
     }
     
     
-    private func removeTerminalLeaf(_ parent : AvlNode?, _ viewed: AvlNode?){
-        if parent?.left === viewed{
-            parent?.left = nil
+    private func removeTerminalLeaf(_ parent : inout AvlNode, _ viewed: AvlNode){
+        if parent.left === viewed{
+            parent.left = nil
         }else{
-            parent?.right = nil
+            parent.right = nil
         }
     }
-    private func removeWithOneChildLeaf(_ parent : AvlNode, _ viewed: AvlNode){
+    private func removeWithOneChildLeaf(_ parent : inout AvlNode, _ viewed: AvlNode){
         if parent.left === viewed{
             parent.left = viewed.left ?? viewed.right
         }else{
             parent.right = viewed.left ?? viewed.right
         }
     }
-    private func removeWithTwoChildren(_ parent : AvlNode, _ viewed: AvlNode){
+    private func removeWithTwoChildren(_ parent : inout AvlNode, _ viewed: AvlNode){
         if viewed.left?.right == nil{
             let viewedright = viewed.right
             if parent.left === viewed{

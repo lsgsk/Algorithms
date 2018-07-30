@@ -19,6 +19,7 @@
 		F8A0B24D210CBACF00D949DE /* AvlTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24C210CBACF00D949DE /* AvlTree.swift */; };
 		F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A0B24E210CBC5E00D949DE /* Extensions.swift */; };
 		F8B9D108210F1595008806C5 /* AvlNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D107210F1595008806C5 /* AvlNode.swift */; };
+		F8B9D10A210F27AA008806C5 /* AvlNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D107210F1595008806C5 /* AvlNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -215,6 +216,7 @@
 				F880FE08210DD98000FC89F7 /* Test_OrderedBinaryTree.swift in Sources */,
 				F880FE0D210DE1B000FC89F7 /* BinaryNode.swift in Sources */,
 				F880FE02210DD85500FC89F7 /* TreeUnitTests.swift in Sources */,
+				F8B9D10A210F27AA008806C5 /* AvlNode.swift in Sources */,
 				F880FE0F210DEC9000FC89F7 /* AvlTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

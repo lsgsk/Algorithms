@@ -1,17 +1,16 @@
 import Cocoa
 
-class OrderedBinaryTree : CustomStringConvertible {
-    private var root : BinaryNode?
-    init() {
-    }
+class AvlBinaryTree: CustomStringConvertible {
+    private var root : AvlNode?
     
+    //Add block
     func addNode(_ newValue: Int){
         addNode(&root, newValue)
     }
     
-    private func addNode(_ node : inout BinaryNode?, _ value: Int){
+    private func addNode(_ node : inout AvlNode?, _ value: Int){
         if node == nil{
-            node = BinaryNode(value)
+            node = AvlNode(value)
         }
         else{
             if value < node!.value{
@@ -20,31 +19,14 @@ class OrderedBinaryTree : CustomStringConvertible {
                 addNode(&node!.right, value)
             }
         }
+        node = balance(node!)
     }
-    func findNode(_ target: Int) -> BinaryNode?{
-        return findNode(self.root, target)
-    }
-    
-    private func findNode(_ node : BinaryNode?, _ target: Int) -> BinaryNode?{
-        if let root = node{
-            if target == root.value{
-                return root
-            }else if target < root.value{
-                return findNode(root.left, target)
-            }else{
-                return findNode(root.right, target)
-            }
-        }
-        else{
-            return nil
-        }
-    }
-    
+    //Remove block
     func removeNode(_ target: Int){
         removeNode(&self.root, target)
     }
     
-    private func removeNode(_ node : inout BinaryNode?, _ target: Int){
+    private func removeNode(_ node : inout AvlNode?, _ target: Int){
         if node == nil{
             return
         }
@@ -62,7 +44,7 @@ class OrderedBinaryTree : CustomStringConvertible {
                     node = pleft
                     node?.right = pright
                 }else{
-                    var tparent : BinaryNode? = nil
+                    var tparent : AvlNode? = nil
                     var tpointer = node
                     while tpointer?.left?.right != nil{
                         tparent = tpointer?.left
@@ -75,12 +57,50 @@ class OrderedBinaryTree : CustomStringConvertible {
                 }
             }
         }else if target < node!.value{
-            return removeNode(&node!.left, target)
+            removeNode(&node!.left, target)
         }else{
-            return removeNode(&node!.right, target)
+            removeNode(&node!.right, target)
+        }
+        if node != nil{
+            node = balance(node!)
         }
     }
+    //Balance block
     
+    func rotateright(_ root : AvlNode) -> AvlNode{
+        guard let newroot = root.left else {
+            return root
+        }
+        root.left = newroot.right
+        newroot.right = root
+        return newroot
+    }
+    
+    func rotateleft(_ root : AvlNode) -> AvlNode{
+        guard let newroot = root.right else {
+            return root
+        }
+        root.right = newroot.left;
+        newroot.left = root;
+        return newroot;
+    }
+    
+    private func balance(_ node : AvlNode) -> AvlNode{
+        if(node.bfactor == 2){
+            if let factor = node.right?.bfactor, factor == -1 {
+                node.right = rotateright(node.right!);
+            }
+            return rotateleft(node);
+        }
+        if(node.bfactor == -2){
+            if let factor = node.left?.bfactor, factor == 1{
+                node.left = rotateleft(node.left!);
+            }
+            return rotateright(node);
+        }
+        return node;
+    }
+    //othes
     var description: String{
         get{
             return root?.asString ?? "Empty tree"
@@ -91,7 +111,7 @@ class OrderedBinaryTree : CustomStringConvertible {
         return traverseValuesInOrder(self.root).trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
-    private func traverseValuesInOrder(_ node: BinaryNode?) -> String{
+    private func traverseValuesInOrder(_ node: AvlNode?) -> String{
         var values = ""
         if let node = node{
             if let left = node.left{
@@ -108,7 +128,7 @@ class OrderedBinaryTree : CustomStringConvertible {
     func traverseDepthInOrder() -> String{
         return traverseDepthInOrder(self.root, 0).trimmingCharacters(in: CharacterSet.whitespaces)
     }
-    private func traverseDepthInOrder(_ node: BinaryNode?, _ depth: Int) -> String{
+    private func traverseDepthInOrder(_ node: AvlNode?, _ depth: Int) -> String{
         var values = ""
         if let node = node{
             if let left = node.left{
@@ -122,4 +142,7 @@ class OrderedBinaryTree : CustomStringConvertible {
         return values
     }
 }
+
+
+
 

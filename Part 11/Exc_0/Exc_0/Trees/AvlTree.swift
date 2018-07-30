@@ -28,24 +28,6 @@ class AvlTree: CustomStringConvertible {
         node = balance(node)
     }
     
-    //find block
-    func findNode(_ target: Int) -> AvlNode?{
-        return findNode(self.root, target)
-    }
-    private func findNode(_ root : AvlNode?, _ target: Int) -> AvlNode?{
-        if let root = root{
-            if target == root.value{
-                return root
-            }else if target < root.value{
-                return findNode(root.left, target)
-            }else{
-                return findNode(root.right, target)
-            }
-        }
-        else{
-            return nil
-        }
-    }
     //Remove block
     
     func removeNode(_ target: Int){

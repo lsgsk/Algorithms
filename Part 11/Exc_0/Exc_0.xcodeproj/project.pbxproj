@@ -21,6 +21,8 @@
 		F8B9D108210F1595008806C5 /* AvlNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D107210F1595008806C5 /* AvlNode.swift */; };
 		F8B9D10A210F27AA008806C5 /* AvlNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D107210F1595008806C5 /* AvlNode.swift */; };
 		F8B9D10C210F34C6008806C5 /* Test_AvlBinaryTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D10B210F34C6008806C5 /* Test_AvlBinaryTree.swift */; };
+		F8B9D10E210F5965008806C5 /* BTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D10D210F5965008806C5 /* BTree.swift */; };
+		F8B9D110210F597A008806C5 /* BNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B9D10F210F597A008806C5 /* BNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,6 +50,8 @@
 		F8A0B24E210CBC5E00D949DE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F8B9D107210F1595008806C5 /* AvlNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvlNode.swift; sourceTree = "<group>"; };
 		F8B9D10B210F34C6008806C5 /* Test_AvlBinaryTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test_AvlBinaryTree.swift; sourceTree = "<group>"; };
+		F8B9D10D210F5965008806C5 /* BTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTree.swift; sourceTree = "<group>"; };
+		F8B9D10F210F597A008806C5 /* BNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,7 @@
 				F880FE0A210DDABA00FC89F7 /* BinaryNode.swift */,
 				F8B9D107210F1595008806C5 /* AvlNode.swift */,
 				F8A0B24E210CBC5E00D949DE /* Extensions.swift */,
+				F8B9D10F210F597A008806C5 /* BNode.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 			children = (
 				F880FDF9210DD75200FC89F7 /* OrderedBinaryTree.swift */,
 				F8A0B24C210CBACF00D949DE /* AvlBinaryTree.swift */,
+				F8B9D10D210F5965008806C5 /* BTree.swift */,
 			);
 			path = Trees;
 			sourceTree = "<group>";
@@ -229,11 +235,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B9D10E210F5965008806C5 /* BTree.swift in Sources */,
 				F8A0B246210CBABC00D949DE /* main.swift in Sources */,
 				F880FDFA210DD75200FC89F7 /* OrderedBinaryTree.swift in Sources */,
 				F880FE0B210DDABA00FC89F7 /* BinaryNode.swift in Sources */,
 				F8B9D108210F1595008806C5 /* AvlNode.swift in Sources */,
 				F8A0B24F210CBC5E00D949DE /* Extensions.swift in Sources */,
+				F8B9D110210F597A008806C5 /* BNode.swift in Sources */,
 				F8A0B24D210CBACF00D949DE /* AvlBinaryTree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

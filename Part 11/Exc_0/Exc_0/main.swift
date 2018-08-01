@@ -1,24 +1,16 @@
 import Foundation
 
-var avl = AvlBinaryTree()
-/*avl.addNode(4);print(avl,terminator: "\n\n")
-avl.addNode(5);print(avl,terminator: "\n\n")
-avl.addNode(7);print(avl,terminator: "\n\n")
-avl.addNode(2);print(avl,terminator: "\n\n")
-avl.addNode(1);print(avl,terminator: "\n\n")
-avl.addNode(3);print(avl,terminator: "\n\n")
-avl.addNode(6);print(avl,terminator: "\n\n")*/
+if let tree = BTree<Int, String>(order: 3)
+{
+    tree.insert("Sasha", for: 5)
+    tree.insert("Misha", for: 3)
+    tree.insert("Anna", for: 10)
+    tree.insert("Sveta", for: 8)
+    tree.insert("Lena", for: 1)
+    tree.insert("Anton", for: 4)
+    tree.insert("Maxim", for: 9)
+    tree.insert("Stepan", for: 2)
+    print(tree.description)
+}
 
-avl.addNode(5);
-avl.addNode(3);avl.addNode(8);
-avl.addNode(2);avl.addNode(4);avl.addNode(7);avl.addNode(10);
-avl.addNode(1);avl.addNode(6);avl.addNode(9);avl.addNode(11)
-print(avl, terminator: "\n--------------------\n")
-avl.removeNode(4);print(avl)
-avl.removeNode(8);print(avl)
-avl.removeNode(6);print(avl)
-avl.removeNode(5);print(avl)
-avl.removeNode(2);print(avl)
-avl.removeNode(1);print(avl)
-avl.removeNode(7);print(avl)
 

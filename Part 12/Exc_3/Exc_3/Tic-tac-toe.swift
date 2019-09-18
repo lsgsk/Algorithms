@@ -8,23 +8,23 @@ class GameBoard {
 		self.player2 = player2
 	}
 	
-	func getAvailableMoves() -> [Int] {
-		let positions = genarateBoardState()
-		var array = [Int]()
+	func getAvailableTurns() -> [Move] {
+		let positions = generateBoardState()
+		var movesArray = [Move]()
 		for (index, item) in positions.enumerated() {
 			if item == nil {
-				array.append(index)
+				movesArray.append(Move(position: index))
 			}
 		}
-		return array
+		return movesArray
 	}
 	
 	func calculateGameResult() -> GameResult {
-		let positions = genarateBoardState()
+		let positions = generateBoardState()
 		return checkGameResult(positions)
 	}
 	
-	private func genarateBoardState() -> [PlayerType?] {
+	private func generateBoardState() -> [PlayerType?] {
 		var positions = [PlayerType?](repeating: nil, count: Constants.boardSideCount * Constants.boardSideCount)
 		setExecutedPlayerMoves(board: &positions, player: player1)
 		setExecutedPlayerMoves(board: &positions, player: player2)
@@ -74,7 +74,7 @@ class GameBoard {
 	}
 	
 	func printBoard() -> String {
-		let positions = genarateBoardState()
+		let positions = generateBoardState()
 		var str = ""
 		var newLine = 0
 		for element in positions {
@@ -92,5 +92,25 @@ class GameBoard {
 			}
 		}
 		return str
+	}
+}
+
+class Player {
+	let type: PlayerType
+	private(set) var moves: [Bool]
+	init(type: PlayerType) {
+		self.type = type
+		self.moves = [Bool](repeating: false, count: Constants.boardSideCount * Constants.boardSideCount)
+	}
+	
+	func addMove(_ move: Int) {
+		moves[move] = true
+	}
+	
+	func addMove(_ move: Move) {
+		moves[move.position] = true
+	}
+	func removeMove(_ move: Move) {
+		moves[move.position] = false
 	}
 }

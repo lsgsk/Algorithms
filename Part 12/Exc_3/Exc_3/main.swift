@@ -1,51 +1,5 @@
 import Foundation
 
-
-
-
-
-
-
-class Move: Equatable {
-	let position: Int
-	
-	init(position: Int) {
-		self.position = position
-	}
-	
-	static func == (lhs: Move, rhs: Move) -> Bool {
-		return lhs.position == rhs.position
-	}
-}
-
-enum Value: Int {
-	case win
-	case draw
-	case loss
-	case unknown
-	case infinity
-}
-
-class Player {
-	let type: PlayerType
-	private(set) var moves: [Bool]
-	init(type: PlayerType) {
-		self.type = type
-		self.moves = [Bool](repeating: false, count: Constants.boardSideCount * Constants.boardSideCount)
-	}
-	
-	func addMove(_ move: Int) {
-		moves[move] = true
-	}
-	
-	func addMove(_ move: Move) {
-		moves[move.position] = true
-	}
-	func removeMove(_ move: Move) {
-		moves[move.position] = false
-	}
-}
-
 func minimax(board: GameBoard, best_move: inout Move, best_value: inout Value, player1: Player, player2: Player, depth: Int, max_depth: Int) {
 	if depth > max_depth {
 		best_value = .unknown
@@ -54,18 +8,15 @@ func minimax(board: GameBoard, best_move: inout Move, best_value: inout Value, p
 	var lowest_value = Value.infinity
 	var lowest_move = Move(position: 0)
 	
-	for moveIndex in board.getAvailableMoves() {
-		player1.addMove(Move(position: moveIndex))
-		//print("\(board.printBoard())")
+	for move in board.getAvailableTurns() {
+		player1.addMove(move)
 		switch board.calculateGameResult() {
 		case .win(let type):
-			lowest_move = Move(position: moveIndex)
+			lowest_move = move
 			lowest_value = type == player1.type ? .win : .loss
-		//print("-----")
 		case .draw:
-			lowest_move = Move(position: moveIndex)
+			lowest_move = move
 			lowest_value = .draw
-		//print("-----")
 		case .unknown:
 			var test_value = Value.unknown
 			var test_move = Move(position: 0)
@@ -75,7 +26,7 @@ func minimax(board: GameBoard, best_move: inout Move, best_value: inout Value, p
 				lowest_move = test_move
 			}
 		}
-		player1.removeMove(Move(position: moveIndex))
+		player1.removeMove(move)
 	}
 	
 	best_move = lowest_move
@@ -86,7 +37,6 @@ func minimax(board: GameBoard, best_move: inout Move, best_value: inout Value, p
 		best_value = .win
 	}
 }
-
 
 func computerMove(board: GameBoard, player: Player, computer: Player) {
 	var next_value = Value.unknown
@@ -99,23 +49,32 @@ let crossesPlayer = Player(type: .crosses)
 let noughtsPlayer = Player(type: .noughts)
 let board = GameBoard(player1: crossesPlayer, player2: noughtsPlayer)
 var gameFinished = false
+let maxTurnIndex = Constants.boardSideCount * Constants.boardSideCount
 while !gameFinished {
-	print("Enter your next step (0-8)")
+	print("Enter your next turn, using digits from 0 to 8")
 	print(board.printBoard())
-	if let nextStep = readLine(), let nextStepIndex = Int(nextStep) {
-		crossesPlayer.addMove(nextStepIndex)
-		computerMove(board: board, player: crossesPlayer, computer: noughtsPlayer)
-		switch board.calculateGameResult() {
-		case .win(let layer):
-			print("\(layer)")
-			gameFinished = true
-		case .draw:
-			gameFinished = true
-		case .unknown:
-			break
+	if let nextStep = readLine(), let nextStepIndex = Int(nextStep), nextStepIndex >= 0, nextStepIndex < maxTurnIndex {
+		if !board.getAvailableTurns().contains(where: { $0.position == nextStepIndex }) {
+			print("Incorrect turn. Position already used")
+		}
+		else {
+			crossesPlayer.addMove(nextStepIndex)
+			computerMove(board: board, player: crossesPlayer, computer: noughtsPlayer)
+			switch board.calculateGameResult() {
+			case .win(let layer):
+				print(board.printBoard())
+				print("Congratulations! \(layer) has win")
+				gameFinished = true
+			case .draw:
+				print(board.printBoard())
+				print("The game is over. It`s draw")
+				gameFinished = true
+			case .unknown:
+				break
+			}
 		}
 	}
 	else {
-		print("Incorrect value. Enter your next step, using digits from 0 to 8")
+		print("Incorrect value. Use only digits from 0 to 8")
 	}
 }

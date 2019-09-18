@@ -4,6 +4,12 @@ struct Constants {
 	static let boardSideCount = 3
 }
 
+enum HardLevel {
+	case random
+	case beginner
+	case expert
+}
+
 enum PlayerType {
 	case noughts
 	case crosses

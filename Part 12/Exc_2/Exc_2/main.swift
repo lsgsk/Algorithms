@@ -1,7 +1,3 @@
-var noughtsCount = 0
-var crossesCount = 0
-var drawCount = 0
-
 func calculateGamesCount(board: GameBoard, player1: Player, player2: Player) -> Int {
 	var count = 0
 	let availableMoves = board.getAvailableTurns()
@@ -19,10 +15,10 @@ func calculateGamesCount(board: GameBoard, player1: Player, player2: Player) -> 
 }
 
 func countGamesForFirstPosition(_ turn: Int, _ board: GameBoard, _ player1: Player, _ player2: Player) {
-	//player1.addMove(turn)
-	let count = calculateGamesCount(board: board, player1: player1, player2: player2)
+	player1.addMove(turn)
+	let count = calculateGamesCount(board: board, player1: player2, player2: player1)
 	print("There are \(count) games for \(turn) first step")
-	//player1.removeMove(turn)
+	player1.removeMove(turn)
 }
 
 let crossesPlayer = Player(type: .crosses)

@@ -1,16 +1,14 @@
 
-func findMinimalTree(startNode: Node) {
-	var visitedCollection = Set<String>()
-	var applicants = [Link]()
-	var addedNodes = "\(startNode.name) "
-	applicants.append(contentsOf: startNode.links)
-	while let next = applicants.min(by: { (a, b) -> Bool in a.cost < b.cost }) {
-		visitedCollection.insert(next.toNode.id)
-		addedNodes += "\(next.toNode.name) "
-		applicants.removeAll(where: { $0.toNode == next.toNode })
-		applicants.append(contentsOf: next.toNode.links.filter { !visitedCollection.contains($0.toNode.id) } )
-		print("\(addedNodes) \(applicants.map { $0.toNode.name })")
+func findMinimalTree(startNode: Node) -> String {
+	var ostov = [(Node,Link)]()
+	var applicants = [(Node,Link)]()
+	applicants.append(contentsOf: startNode.links.map { (startNode, $0) })
+	while let next = applicants.min(by: { (a, b) -> Bool in a.1.cost < b.1.cost }) {
+		ostov.append(next)
+		applicants.removeAll(where: { $0.1.toNode == next.1.toNode })
+		applicants.append(contentsOf:next.1.toNode.links.filter { !ostov.map { $0.1.toNode}.contains( $0.toNode) }.map { (next.1.toNode, $0) })
 	}
+	return ostov.reduce("Ostov:\n", { (r, l) -> String in "\(r)\(l.0.name)-\(l.1.cost)-\(l.1.toNode.name) \n" })
 }
 
 let a = Node(name: "A")
@@ -35,4 +33,4 @@ g.links.append(Link(cost: 12, toNode: h))
 h.links.append(Link(cost: 13, toNode: f))
 i.links.append(Link(cost: 3, toNode: d))
 
-findMinimalTree(startNode: a)
+print(findMinimalTree(startNode: a))

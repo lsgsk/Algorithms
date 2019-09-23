@@ -4,6 +4,7 @@ class Node: Equatable {
 	let id: String
 	let name: String
 	var links: [Link]
+	
 	init(name: String) {
 		self.id = UUID().uuidString
 		self.name = name

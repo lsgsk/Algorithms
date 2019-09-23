@@ -131,4 +131,4 @@ g.links.append(Link(cost: 12, toNode: h))
 h.links.append(Link(cost: 13, toNode: f))
 i.links.append(Link(cost: 3, toNode: d))
 
-print(findWayToNode(startNode: a, finishNode: h).reduce("", { (r, l) -> String in  "\(r)\(l.fromNode.name)-\(l.cost)-\(l.toNode.name) \n" }))
+print(findWayToNode(startNode: a, finishNode: f).reduce("", { (r, l) -> String in  "\(r)\(l.fromNode.name)-\(l.cost)-\(l.toNode.name) \n" }))

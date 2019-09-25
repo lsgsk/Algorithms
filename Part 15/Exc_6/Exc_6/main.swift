@@ -76,30 +76,29 @@ func parceExcression(expression: String) throws -> ExpressionNode? {
 		}
 		return queue
 	}
-	func tree(_ queue: [ParceOperator], _ index: Int) -> ExpressionNode? {
-		if index>=0 {
-			let operand = queue[index]
+	func tree(_ queue: inout [ParceOperator]) -> ExpressionNode? {
+		while let operand = queue.popLast()  {
 			switch operand {
 			case .Literal(let value):
 				return ExpressionNode(operand: .Literal, literalText: value)
 			case .Plus:
 				let node = ExpressionNode(operand: .Plus)
-				node.leftOperand = tree(queue, index - 2)
-				node.rightOperand = tree(queue, index - 1)
+				node.leftOperand = tree(&queue)
+				node.rightOperand = tree(&queue)
 				return node
 			case .Multiply:
 				let node = ExpressionNode(operand: .Times)
-				node.leftOperand = tree(queue, index - 2)
-				node.rightOperand = tree(queue, index - 1)
+				node.leftOperand = tree(&queue)
+				node.rightOperand = tree(&queue)
 				return node
 			}
 		}
 		return nil
 	}
 	var queue = qwe(operands)
-	let tr = tree(queue, queue.count-1)
+	let tr = tree(&queue)
 	return tr
 }
 
-//print(try parceExcression(expression: "3*4+5")?.evaluate() ?? "")
+print(try parceExcression(expression: "3*4+5")?.evaluate() ?? "")
 print(try parceExcression(expression: "3+4*5")?.evaluate() ?? "")

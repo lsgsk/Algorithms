@@ -26,4 +26,8 @@ class Queue<T> {
 	func dequeue() -> T?{
 		return array.removeFirst()
 	}
+	
+	func pop() -> T?{
+		return array.popLast()
+	}
 }

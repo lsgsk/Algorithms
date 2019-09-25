@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/lsgsk/Documents/Algorithms/Part 15/Exc_6/Exc_6/ExpressionParcer.swift">
+   </FileRef>
+   <FileRef
       location = "self:Exc_6.xcodeproj">
    </FileRef>
 </Workspace>

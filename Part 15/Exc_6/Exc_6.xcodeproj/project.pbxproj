@@ -10,6 +10,7 @@
 		F853A13A233B86C200D2A8CE /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F853A139233B86C200D2A8CE /* main.swift */; };
 		F853A141233B86EC00D2A8CE /* ExpressionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F853A140233B86EC00D2A8CE /* ExpressionNode.swift */; };
 		F853A143233B879300D2A8CE /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F853A142233B879300D2A8CE /* Collections.swift */; };
+		F8BACD6A233BABCA0036CAFB /* ExpressionParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8BACD69233BABCA0036CAFB /* ExpressionParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		F853A139233B86C200D2A8CE /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F853A140233B86EC00D2A8CE /* ExpressionNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionNode.swift; sourceTree = "<group>"; };
 		F853A142233B879300D2A8CE /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		F8BACD69233BABCA0036CAFB /* ExpressionParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressionParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +63,9 @@
 		F853A138233B86C200D2A8CE /* Exc_6 */ = {
 			isa = PBXGroup;
 			children = (
-				F853A140233B86EC00D2A8CE /* ExpressionNode.swift */,
 				F853A139233B86C200D2A8CE /* main.swift */,
+				F8BACD69233BABCA0036CAFB /* ExpressionParser.swift */,
+				F853A140233B86EC00D2A8CE /* ExpressionNode.swift */,
 				F853A142233B879300D2A8CE /* Collections.swift */,
 			);
 			path = Exc_6;
@@ -127,6 +130,7 @@
 			files = (
 				F853A13A233B86C200D2A8CE /* main.swift in Sources */,
 				F853A143233B879300D2A8CE /* Collections.swift in Sources */,
+				F8BACD6A233BABCA0036CAFB /* ExpressionParser.swift in Sources */,
 				F853A141233B86EC00D2A8CE /* ExpressionNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

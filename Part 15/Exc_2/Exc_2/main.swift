@@ -8,17 +8,6 @@ enum ParceOperator {
 	case Divide
 	case Open
 	case Close
-	
-	var priority: Int {
-		switch self {
-		case .Multiply, .Divide:
-			return 3
-		case .Add, .Subtract:
-			return 2
-		default:
-			return 0
-		}
-	}
 }
 
 func parceExcression(expression: String) -> Int {
@@ -96,5 +85,4 @@ func parceExcression(expression: String) -> Int {
 	return resultStack[0]
 }
 print(parceExcression(expression: "(3+4)*5"))
-print(parceExcression(expression: "(2*3)+(20/(7-3))"))
 print(parceExcression(expression: "(8*3)+(20/(7-3))"))

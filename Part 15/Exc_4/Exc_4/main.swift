@@ -29,7 +29,7 @@ enum ParseOperator {
 	}
 }
 
-func parseExpression(expression: String) throws -> Double {
+func evaluateExpression(expression: String) throws -> Double {
 	var stack = [ParseOperator]()
 	var queue = [ParseOperator]()
 	var numberLiteral = ""
@@ -181,4 +181,4 @@ func parseExpression(expression: String) throws -> Double {
 	return resultStack[0]
 }
 
-print(try parseExpression(expression: "3 * sin(1) + 1"))
+print(try evaluateExpression(expression: "3 * sin(1) + 1"))

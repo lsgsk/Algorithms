@@ -57,18 +57,18 @@ func evaluateExpression(expression: String) throws -> Double {
 			funcLiteral = ""
 		}
 		//игры с приоритетом для + и *
-		func insetOperation(_ operand: ParseOperator) {
-			if let existing = stack.popLast() {
-				if operand.priority <= existing.priority {
-					queue.append(existing)
+		func insetOperation(_ newOperand: ParseOperator) {
+			if let existingInStackOperand = stack.popLast() {
+				if newOperand.priority <= existingInStackOperand.priority {
+					queue.append(existingInStackOperand)
 				}
 				else {
-					stack.append(existing)
+					stack.append(existingInStackOperand)
 				}
-				stack.append(operand)
+				stack.append(newOperand)
 			}
 			else {
-				stack.append(operand)
+				stack.append(newOperand)
 			}
 		}
 		

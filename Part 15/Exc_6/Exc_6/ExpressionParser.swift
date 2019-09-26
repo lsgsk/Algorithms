@@ -9,8 +9,8 @@ class ExpressionParser {
 		return tr
 	}
 	
-	private func devideToOperations(expression: String) throws -> [ParceOperator] {
-		var operands = [ParceOperator]()
+	private func devideToOperations(expression: String) throws -> [ParseOperator] {
+		var operands = [ParseOperator]()
 		var literal = ""
 		var hooksСounter = 0
 		
@@ -49,16 +49,16 @@ class ExpressionParser {
 		return operands
 	}
 	
-	private func buildReversePolishNotation(_ operands: [ParceOperator]) -> Queue<ParceOperator>{
-		let queue = Queue<ParceOperator>()
-		let stack = Stack<ParceOperator>()
+	private func buildReversePolishNotation(_ operands: [ParseOperator]) -> Queue<ParseOperator>{
+		let queue = Queue<ParseOperator>()
+		let stack = Stack<ParseOperator>()
 		for operand in operands {
 			switch operand {
 			case .Literal:
 				queue.enqueue(operand)
 			case .Plus, .Multiply, .Minus, .Divide:
 				if let exist = stack.pop() {
-					if operand.priority <= exist.priority {
+					if operand <= exist {
 						queue.enqueue(exist)
 					}
 					else {
@@ -89,7 +89,7 @@ class ExpressionParser {
 		return queue
 	}
 	
-	private func buildExpressionTree(_ queue: inout Queue<ParceOperator>) -> ExpressionNode? {
+	private func buildExpressionTree(_ queue: inout Queue<ParseOperator>) -> ExpressionNode? {
 		while let operand = queue.pop()  {
 			switch operand {
 			case .Literal(let value):
@@ -120,7 +120,7 @@ class ExpressionParser {
 	}
 }
 
-enum ParceOperator {
+enum ParseOperator: Comparable {
 	case Literal(String)
 	case Plus
 	case Minus
@@ -128,8 +128,10 @@ enum ParceOperator {
 	case Divide
 	case Open
 	case Close
-	
-	var priority: Int {
+	static func < (lhs: ParseOperator, rhs: ParseOperator) -> Bool {
+		return lhs.priority < rhs.priority
+	}
+	private var priority: Int {
 		switch self {
 		case .Multiply, .Divide:
 			return 3

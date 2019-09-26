@@ -4,7 +4,7 @@ enum ExpressionError: Error {
 	case incorrectExpression
 }
 
-enum ParseOperator {
+enum ParseOperator: Comparable {
 	case True
 	case False
 	case Disjunction // ИЛИ |
@@ -12,7 +12,10 @@ enum ParseOperator {
 	case Negation // НЕ -
 	case Open
 	case Close
-	var priority: Int {
+	static func < (lhs: ParseOperator, rhs: ParseOperator) -> Bool {
+		return lhs.priority < rhs.priority
+	}
+	private var priority: Int {
 		switch self {
 		case .Negation:
 			return 3
@@ -31,18 +34,18 @@ func evaluateBoolExpression(expression: String) throws -> Bool {
 		var stack = [ParseOperator]()
 		var queue = [ParseOperator]()
 		
-		func insetOperation(_ operand: ParseOperator) {
-			if let existing = stack.popLast() {
-				if operand.priority <= existing.priority {
-					queue.append(existing)
+		func insetOperation(_ newOperand: ParseOperator) {
+			if let existingInStackOperand = stack.popLast() {
+				if newOperand <= existingInStackOperand {
+					queue.append(existingInStackOperand)
 				}
 				else {
-					stack.append(existing)
+					stack.append(existingInStackOperand)
 				}
-				stack.append(operand)
+				stack.append(newOperand)
 			}
 			else {
-				stack.append(operand)
+				stack.append(newOperand)
 			}
 		}
 		

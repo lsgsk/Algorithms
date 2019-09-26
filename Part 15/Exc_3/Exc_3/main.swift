@@ -95,6 +95,4 @@ func parceExcression(expression: String) -> Int {
 	}
 	return resultStack[0]
 }
-print(parceExcression(expression: "(3+4)*5"))
-print(parceExcression(expression: "(2*3)+(20/(7-3))"))
-print(parceExcression(expression: "(8*3)+(20/(7-3))"))
+print(parceExcression(expression: "-(2/7)"))

@@ -2,12 +2,23 @@ import Cocoa
 
 class ExpressionNode {
 	let operand: Operators
-	let value : Double?
+	let name: String?
+	private(set) var value: Double?
 	var leftOperand: ExpressionNode?
 	var rightOperand: ExpressionNode?
-	init(operand: Operators, value: Double? = nil) {
+	init(operand: Operators, value: Double? = nil, name: String? = nil) {
 		self.operand = operand
 		self.value = value
+		self.name = name
+	}
+	
+	func setVariable(_ value: Double) throws {
+		if case .Variable = operand {
+			self.value = value
+		}
+		else {
+			throw TreeError.impossibleToSetVariable
+		}
 	}
 	
 	func evaluate() throws -> Double {
@@ -17,6 +28,12 @@ class ExpressionNode {
 				return value
 			} else {
 				throw TreeError.incorrectTree
+			}
+		case .Variable:
+			if let value = value {
+				return value
+			} else {
+				throw TreeError.variableNotSetted
 			}
 		case .Add:
 			let opearands = try getOperands()
@@ -63,6 +80,7 @@ class ExpressionNode {
 
 enum Operators {
 	case Literal
+	case Variable
 	case Add
 	case Subtract
 	case Multiply
@@ -73,4 +91,6 @@ enum Operators {
 
 enum TreeError: Error {
 	case incorrectTree
+	case impossibleToSetVariable
+	case variableNotSetted
 }

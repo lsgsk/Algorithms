@@ -83,6 +83,8 @@ class ExpressionParser {
 				insetOperation(.Multiply)
 			case "/":
 				insetOperation(.Divide)
+			case "x", "X", "y", "Y", "z", "Z":
+				queue.enqueue(ParseOperator.Variable(String(char)))
 			case _ where char.isNumber:
 				numberLiteral.append(char)
 			case _ where char.isLetter:
@@ -117,6 +119,8 @@ class ExpressionParser {
 			switch operand {
 			case .Literal(let value):
 				stack.push(ExpressionNode(operand: .Literal, value: value))
+			case .Variable(let name):
+				stack.push(ExpressionNode(operand: .Variable, name: name))
 			case .Add, .Multiply, .Divide:
 				if let firstInStackNode = stack.pop(), let secondInStackNode = stack.pop()  {
 					var node: ExpressionNode? = nil
@@ -182,6 +186,7 @@ class ExpressionParser {
 
 enum ParseOperator: Comparable {
 	case Literal(Double)
+	case Variable(String)
 	case Add
 	case Subtract
 	case Multiply

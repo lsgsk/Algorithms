@@ -72,14 +72,12 @@ func parceExcression(expression: String) -> Int {
 			if let number = Int(value) {
 				resultStack.append(number)
 			}
-		case .Add, .Subtract, .Multiply, .Divide:
+		case .Add, .Multiply, .Divide:
 			if let firstInStack = resultStack.popLast(), let secondInStack = resultStack.popLast()  {
 				var result = 0
 				switch operand {
 				case .Add:
 					result = secondInStack + firstInStack
-				case .Subtract:
-					result = secondInStack - firstInStack
 				case .Multiply:
 					result = secondInStack * firstInStack
 				case .Divide:
@@ -89,10 +87,22 @@ func parceExcression(expression: String) -> Int {
 				}
 				resultStack.append(result)
 			}
+		case .Subtract:
+			if let firstInStack = resultStack.popLast() {
+				var result = 0
+				if let secondInStack = resultStack.popLast() {
+					result = secondInStack - firstInStack
+				}
+				else {
+					result = -firstInStack
+				}
+				resultStack.append(result)
+			}
 		default:
 			break
 		}
 	}
 	return resultStack[0]
 }
-print(parceExcression(expression: "-(2/7)"))
+print(parceExcression(expression: "-(14/7)"))
+print(parceExcression(expression: "-(-14/7)"))

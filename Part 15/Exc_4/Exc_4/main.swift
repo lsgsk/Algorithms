@@ -6,7 +6,7 @@ enum ExpressionError: Error {
 	case unknownFunction
 }
 
-enum ParceOperator {
+enum ParseOperator {
 	case Literal(Double)
 	case Add
 	case Subtract
@@ -29,9 +29,9 @@ enum ParceOperator {
 	}
 }
 
-func parceExcression(expression: String) throws -> Double {
-	var stack = [ParceOperator]()
-	var queue = [ParceOperator]()
+func parseExpression(expression: String) throws -> Double {
+	var stack = [ParseOperator]()
+	var queue = [ParseOperator]()
 	var numberLiteral = ""
 	var funcLiteral = ""
 	
@@ -56,12 +56,29 @@ func parceExcression(expression: String) throws -> Double {
 			}
 			funcLiteral = ""
 		}
+		//игры с приоритетом для + и *
+		func insetOperation(_ operand: ParseOperator) {
+			if let existing = stack.popLast() {
+				if operand.priority <= existing.priority {
+					queue.append(existing)
+				}
+				else {
+					stack.append(existing)
+				}
+				stack.append(operand)
+			}
+			else {
+				stack.append(operand)
+			}
+		}
+		
 		switch char {
 		case "(":
 			stack.append(.Open)
 		case ")":
 			while let oper = stack.popLast() {
 				if case .Open = oper {
+					// особый случай, когда скобки были частью функции, а не вложенности
 					if let function = stack.popLast() {
 						switch function {
 						case .Sin, .Cos:
@@ -77,13 +94,13 @@ func parceExcression(expression: String) throws -> Double {
 				}
 			}
 		case "+":
-			stack.append(.Add)
+			insetOperation(.Add)
 		case "-":
-			stack.append(.Subtract)
+			insetOperation(.Subtract)
 		case "*":
-			stack.append(.Multiply)
+			insetOperation(.Multiply)
 		case "/":
-			stack.append(.Divide)
+			insetOperation(.Divide)
 		case _ where char.isNumber:
 			numberLiteral.append(char)
 		case _ where char.isLetter:
@@ -110,16 +127,20 @@ func parceExcression(expression: String) throws -> Double {
 	for operand in queue {
 		switch operand {
 		case .Literal(let value):
-			
 			resultStack.append(value)
-			
 		case .Sin:
 			if let firstInStack = resultStack.popLast() {
 				resultStack.append(sin(firstInStack))
 			}
+			else {
+				throw ExpressionError.incorrectExpression
+			}
 		case .Cos:
 			if let firstInStack = resultStack.popLast() {
 				resultStack.append(cos(firstInStack))
+			}
+			else {
+				throw ExpressionError.incorrectExpression
 			}
 		case .Add, .Multiply, .Divide:
 			if let firstInStack = resultStack.popLast(), let secondInStack = resultStack.popLast()  {
@@ -136,6 +157,9 @@ func parceExcression(expression: String) throws -> Double {
 				}
 				resultStack.append(result)
 			}
+			else {
+				throw ExpressionError.incorrectExpression
+			}
 		case .Subtract:
 			if let firstInStack = resultStack.popLast() {
 				var result = 0.0
@@ -147,16 +171,14 @@ func parceExcression(expression: String) throws -> Double {
 				}
 				resultStack.append(result)
 			}
-		default:
-			break
+			else {
+				throw ExpressionError.incorrectExpression
+			}
+		case .Open, .Close:
+			throw ExpressionError.incorrectExpression//тут уже быть не должно
 		}
 	}
 	return resultStack[0]
 }
 
-print(try parceExcression(expression: "3*4+5"))
-print(try parceExcression(expression: "3+4*5"))
-
-//print(parceExcression(expression: "3 * sin(0) + 1"))
-
-
+print(try parseExpression(expression: "3 * sin(1) + 1"))

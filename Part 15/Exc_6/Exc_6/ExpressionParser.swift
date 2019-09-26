@@ -2,130 +2,192 @@ import Foundation
 
 class ExpressionParser {
 	
-	func parse(expression: String) throws -> ExpressionNode? {
-		let operands = try devideToOperations(expression: expression)
-		var queue = buildReversePolishNotation(operands)
-		let tr = buildExpressionTree(&queue)
-		return tr
+	func convertExpressionToExecuteTree(expression: String) throws -> ExpressionNode? {
+		let queue = try parceExpression(expression: expression)
+		return try buildExpressionTree(queue: queue)
 	}
 	
-	private func devideToOperations(expression: String) throws -> [ParseOperator] {
-		var operands = [ParseOperator]()
-		var literal = ""
+	private func parceExpression(expression: String) throws -> Queue<ParseOperator> {
+		var stack = [ParseOperator]()
+		var queue = Queue<ParseOperator>()
+		var numberLiteral = ""
+		var funcLiteral = ""
 		var hooksСounter = 0
 		
-		func literalFinished() {
-			if !literal.isEmpty {
-				operands.append(.Literal(literal))
-				literal = ""
+		for char in expression {
+			if !char.isNumber, !numberLiteral.isEmpty {
+				if let value = Double(numberLiteral) {
+					queue.enqueue(.Literal(value))
+					numberLiteral = ""
+				}
+				else {
+					throw ExpressionError.incorrectNumberValue
+				}
 			}
-		}
-		
-		for ch in expression {
-			switch ch {
+			if !char.isLetter, !funcLiteral.isEmpty {
+				switch funcLiteral.lowercased() {
+				case "sin":
+					stack.append(.Sin)
+				case "cos":
+					stack.append(.Cos)
+				default:
+					throw ExpressionError.unknownFunction
+				}
+				funcLiteral = ""
+			}
+			//игры с приоритетом для + и *
+			func insetOperation(_ newOperand: ParseOperator) {
+				if let existingInStackOperand = stack.popLast() {
+					if newOperand <= existingInStackOperand {
+						queue.enqueue(existingInStackOperand)
+					}
+					else {
+						stack.append(existingInStackOperand)
+					}
+					stack.append(newOperand)
+				}
+				else {
+					stack.append(newOperand)
+				}
+			}
+			
+			switch char {
 			case "(":
-				literalFinished()
-				operands.append(.Open)
+				stack.append(.Open)
 				hooksСounter += 1
 			case ")":
-				literalFinished()
-				operands.append(.Close)
+				while let oper = stack.popLast() {
+					if case .Open = oper {
+						// особый случай, когда скобки были частью функции, а не вложенности
+						if let function = stack.popLast() {
+							switch function {
+							case .Sin, .Cos:
+								queue.enqueue(function)
+							default:
+								stack.append(function)
+							}
+						}
+						break
+					}
+					else {
+						queue.enqueue(oper)
+					}
+				}
 				hooksСounter -= 1
 				if hooksСounter < 0 { throw ExpressionError.incorrectExpression }
 			case "+":
-				literalFinished()
-				operands.append(.Plus)
+				insetOperation(.Add)
+			case "-":
+				insetOperation(.Subtract)
 			case "*":
-				literalFinished()
-				operands.append(.Multiply)
-			case _ where ch.isNumber:
-				literal.append(ch)
+				insetOperation(.Multiply)
+			case "/":
+				insetOperation(.Divide)
+			case _ where char.isNumber:
+				numberLiteral.append(char)
+			case _ where char.isLetter:
+				funcLiteral.append(char)
 			default:
 				break
 			}
 		}
-		literalFinished()
-		if hooksСounter > 0 { throw ExpressionError.incorrectExpression }
-		return operands
-	}
-	
-	private func buildReversePolishNotation(_ operands: [ParseOperator]) -> Queue<ParseOperator>{
-		let queue = Queue<ParseOperator>()
-		let stack = Stack<ParseOperator>()
-		for operand in operands {
-			switch operand {
-			case .Literal:
-				queue.enqueue(operand)
-			case .Plus, .Multiply, .Minus, .Divide:
-				if let exist = stack.pop() {
-					if operand <= exist {
-						queue.enqueue(exist)
-					}
-					else {
-						stack.push(exist)
-					}
-					stack.push(operand)
-				}
-				else {
-					stack.push(operand)
-				}
-			case .Open:
-				stack.push(operand)
-			case .Close:
-				var qwe = true
-				while qwe, let item = stack.pop() {
-					switch item {
-					case .Open:
-						qwe = false
-					default:
-						queue.enqueue(item)
-					}
-				}
+		if !numberLiteral.isEmpty {
+			if let value = Double(numberLiteral) {
+				queue.enqueue(.Literal(value))
+				numberLiteral = ""
+			}
+			else {
+				throw ExpressionError.incorrectNumberValue
 			}
 		}
-		while let operand = stack.pop() {
+		
+		while let operand = stack.popLast() {
 			queue.enqueue(operand)
 		}
+		if hooksСounter > 0 { throw ExpressionError.incorrectExpression }
 		return queue
 	}
 	
-	private func buildExpressionTree(_ queue: inout Queue<ParseOperator>) -> ExpressionNode? {
-		while let operand = queue.pop()  {
+	private func buildExpressionTree(queue: Queue<ParseOperator>) throws -> ExpressionNode? {
+		let stack = Stack<ExpressionNode>()
+		while let operand = queue.dequeue() {
+			
+			//сюда проверку на кол-во аргументов
+			
 			switch operand {
 			case .Literal(let value):
-				return ExpressionNode(operand: .Literal, literalText: value)
-			case .Plus:
-				let node = ExpressionNode(operand: .Plus)
-				node.leftOperand = buildExpressionTree(&queue)
-				node.rightOperand = buildExpressionTree(&queue)
-				return node
-			case .Multiply:
-				let node = ExpressionNode(operand: .Times)
-				node.leftOperand = buildExpressionTree(&queue)
-				node.rightOperand = buildExpressionTree(&queue)
-				return node
+				stack.push(ExpressionNode(operand: .Literal, value: value))
+			case .Add, .Multiply, .Divide:
+				if let firstInStackNode = stack.pop(), let secondInStackNode = stack.pop()  {
+					var node: ExpressionNode? = nil
+					switch operand {
+					case .Add:
+						node = ExpressionNode(operand: .Add)
+					case .Multiply:
+						node = ExpressionNode(operand: .Multiply)
+					case .Divide:
+						node = ExpressionNode(operand: .Divide)
+					default:
+						break
+					}
+					if let node = node {
+						node.leftOperand = secondInStackNode
+						node.rightOperand = firstInStackNode
+						stack.push(node)
+					}
+					else {
+						throw ExpressionError.incorrectExpression
+					}
+				}
+				else {
+					throw ExpressionError.incorrectExpression
+				}
+			case .Subtract:
+				if let firstInStackNode = stack.pop() {
+					let node = ExpressionNode(operand: .Subtract)
+					node.rightOperand = firstInStackNode
+					if let secondInStackNode = stack.pop() {
+						node.leftOperand = secondInStackNode
+					}
+					stack.push(node)
+				}
+				else {
+					throw ExpressionError.incorrectExpression
+				}
+			case .Sin:
+				if let firstInStackNode = stack.pop() {
+					let node = ExpressionNode(operand: .Sin)
+					node.rightOperand = firstInStackNode
+					stack.push(node)
+				}
+				else {
+					throw ExpressionError.incorrectExpression
+				}
+			case .Cos:
+				if let firstInStackNode = stack.pop() {
+					let node = ExpressionNode(operand: .Cos)
+					node.rightOperand = firstInStackNode
+					stack.push(node)
+				}
+				else {
+					throw ExpressionError.incorrectExpression
+				}
 			case .Open, .Close:
 				break
-			case .Minus:
-				let node = ExpressionNode(operand: .Minus)
-				node.leftOperand = buildExpressionTree(&queue)
-				node.rightOperand = buildExpressionTree(&queue)
-			case .Divide:
-				let node = ExpressionNode(operand: .Divide)
-				node.leftOperand = buildExpressionTree(&queue)
-				node.rightOperand = buildExpressionTree(&queue)
 			}
 		}
-		return nil
+		return stack.pop()
 	}
 }
 
 enum ParseOperator: Comparable {
-	case Literal(String)
-	case Plus
-	case Minus
+	case Literal(Double)
+	case Add
+	case Subtract
 	case Multiply
 	case Divide
+	case Sin
+	case Cos
 	case Open
 	case Close
 	static func < (lhs: ParseOperator, rhs: ParseOperator) -> Bool {
@@ -135,7 +197,7 @@ enum ParseOperator: Comparable {
 		switch self {
 		case .Multiply, .Divide:
 			return 3
-		case .Plus, .Minus:
+		case .Add, .Subtract:
 			return 2
 		default:
 			return 0
@@ -145,4 +207,6 @@ enum ParseOperator: Comparable {
 
 enum ExpressionError: Error {
 	case incorrectExpression
+	case incorrectNumberValue
+	case unknownFunction
 }

@@ -6,7 +6,7 @@ enum ExpressionError: Error {
 	case unknownFunction
 }
 
-enum ParseOperator {
+enum ParseOperator: Comparable {
 	case Literal(Double)
 	case Add
 	case Subtract
@@ -17,7 +17,10 @@ enum ParseOperator {
 	case Open
 	case Close
 	
-	var priority: Int {
+	static func < (lhs: ParseOperator, rhs: ParseOperator) -> Bool {
+		return lhs.priority < rhs.priority
+	}
+	private var priority: Int {
 		switch self {
 		case .Multiply, .Divide:
 			return 3
@@ -59,7 +62,7 @@ func evaluateExpression(expression: String) throws -> Double {
 		//игры с приоритетом для + и *
 		func insetOperation(_ newOperand: ParseOperator) {
 			if let existingInStackOperand = stack.popLast() {
-				if newOperand.priority <= existingInStackOperand.priority {
+				if newOperand <= existingInStackOperand {
 					queue.append(existingInStackOperand)
 				}
 				else {
@@ -182,3 +185,4 @@ func evaluateExpression(expression: String) throws -> Double {
 }
 
 print(try evaluateExpression(expression: "3 * sin(1) + 1"))
+ print(try evaluateExpression(expression: "- ( 4 / 2)"))

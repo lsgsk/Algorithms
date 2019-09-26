@@ -11,9 +11,7 @@ class Stack<T> {
 		return array.popLast()
 	}
 	
-	func first() -> T? {
-		return array.first
-	}
+	
 }
 
 class Queue<T> {
@@ -23,11 +21,7 @@ class Queue<T> {
 		array.append(value)
 	}
 	
-	func dequeue() -> T?{
-		return array.removeFirst()
-	}
-	
-	func pop() -> T?{
-		return array.popLast()
+	func dequeue() -> T? {
+		return array.isEmpty ? Optional<T>.none : array.removeFirst()
 	}
 }

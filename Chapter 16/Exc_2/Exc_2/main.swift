@@ -2,7 +2,7 @@ import Foundation
 
 func randomString(length: Int) -> String {
 	let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	return String((0..<length).map{ _ in letters.randomElement()! })
+	return String((0..<length).map { _ in letters.randomElement()! })
 }
 
 func checkMessageAndKey(message: String, code: String) {
@@ -14,13 +14,9 @@ func checkMessageAndKey(message: String, code: String) {
 func encrypt(message: String, code: String) -> String {
 	checkMessageAndKey(message: message, code: code)
 	var shifts = Array(repeating: 0, count: code.count)
-	for (index, ch) in code.enumerated() {
-		for char in code {
-			if ch != char {
-				if ch > char {
-					shifts[index] += 1
-				}
-			}
+	for (index, indexedChar) in code.enumerated() {
+		for char in code where indexedChar != char && indexedChar > char {
+			shifts[index] += 1
 		}
 	}
 	let code = code.uppercased()
@@ -38,13 +34,9 @@ func encrypt(message: String, code: String) -> String {
 func decrypt(message: String, code: String) -> String {
 	checkMessageAndKey(message: message, code: code)
 	var shifts = Array(repeating: 0, count: code.count)
-	for (index, ch) in code.enumerated() {
-		for char in code {
-			if ch != char {
-				if ch > char {
-					shifts[index] += 1
-				}
-			}
+	for (index, indexedChar) in code.enumerated() {
+		for char in code where indexedChar != char && indexedChar > char {
+			shifts[index] += 1
 		}
 	}
 	let code = code.uppercased()
